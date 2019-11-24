@@ -73,6 +73,53 @@ public class EditorWindow extends JFrame implements ActionListener{
 		}	
 	}
 	
+	    private class UndoEditListener implements UndoableEditListener {
+
+        @Override
+        public void undoableEditHappened(UndoableEditEvent e) {
+
+            undoMgr__.addEdit(e.getEdit()); // remember the edit
+        }
+    }
+
+    private class UndoActionListener implements ActionListener {
+
+        private UndoActionType undoActionType;
+
+        public UndoActionListener(UndoActionType type) {
+
+            undoActionType = type;
+        }
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+
+            switch (undoActionType) {
+
+                case UNDO:
+                    if (!undoMgr__.canUndo()) {
+
+                        editor__.requestFocusInWindow();
+                        return; // no edits to undo
+                    }
+
+                    undoMgr__.undo(); //performs undo
+                    break;
+
+                case REDO:
+                    if (!undoMgr__.canRedo()) { //checks if its possible undo or redo
+
+                        editor__.requestFocusInWindow();
+                        return; // no edits to redo
+                    }
+
+                    undoMgr__.redo(); 
+            }
+
+            editor__.requestFocusInWindow();
+        }
+    } // UndoActionListener
+	
 	public static void main(String[] args) {
 		EditorWindow ew = new EditorWindow();
 		ew.setVisible(true);
