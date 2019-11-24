@@ -1,13 +1,8 @@
 package notesDown;
 
 import java.io.*;
-
-import javax.swing.JFileChooser;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.Document;
-import javax.swing.text.EditorKit;
+import javax.swing.*;
+import javax.swing.text.*;
 
 public class FileFactory {
 	private final JFileChooser fileChooser = new JFileChooser();
@@ -62,6 +57,11 @@ public class FileFactory {
 	}
 	
 	public File open() {
+		try {
+			document.insertString(0, "", null);
+		} catch (BadLocationException e1) {
+			e1.printStackTrace();
+		}
 		File file = null;
 		int returnVal = fileChooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
