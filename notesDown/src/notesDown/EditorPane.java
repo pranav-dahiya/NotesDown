@@ -1,5 +1,6 @@
 package notesDown;
 
+import java.awt.Color;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.event.*;
@@ -14,6 +15,7 @@ public class EditorPane extends JEditorPane {
 	private RedoAction redoAction = null;
 
 	public EditorPane() {
+		setCaretColor(Color.WHITE);
 		createDefaultEditorKit();
 		document = getDocument();
 		document.addUndoableEditListener(undoHandler);
@@ -31,11 +33,7 @@ public class EditorPane extends JEditorPane {
 	}
 
 	class UndoHandler implements UndoableEditListener {
-
-		/**
-		 * Messaged when the Document has created an edit, the edit is added to
-		 * <code>undoManager</code>, an instance of UndoManager.
-		 */
+		
 		public void undoableEditHappened(UndoableEditEvent e) {
 			undoManager.addEdit(e.getEdit());
 			undoAction.update();
@@ -44,6 +42,7 @@ public class EditorPane extends JEditorPane {
 	}
 
 	class UndoAction extends AbstractAction {
+		
 		public UndoAction() {
 			super("Undo");
 			setEnabled(false);
@@ -53,8 +52,7 @@ public class EditorPane extends JEditorPane {
 			try {
 				undoManager.undo();
 			} catch (CannotUndoException ex) {
-				// TODO deal with this
-				// ex.printStackTrace();
+				ex.printStackTrace();
 			}
 			update();
 			redoAction.update();
@@ -72,6 +70,7 @@ public class EditorPane extends JEditorPane {
 	}
 
 	class RedoAction extends AbstractAction {
+		
 		public RedoAction() {
 			super("Redo");
 			setEnabled(false);
@@ -81,7 +80,6 @@ public class EditorPane extends JEditorPane {
 			try {
 				undoManager.redo();
 			} catch (CannotRedoException ex) {
-				// TODO deal with this
 				ex.printStackTrace();
 			}
 			update();

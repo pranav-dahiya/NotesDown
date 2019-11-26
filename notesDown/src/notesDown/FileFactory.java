@@ -57,16 +57,12 @@ public class FileFactory {
 	}
 	
 	public File open() {
-		try {
-			document.insertString(0, "", null);
-		} catch (BadLocationException e1) {
-			e1.printStackTrace();
-		}
 		File file = null;
 		int returnVal = fileChooser.showOpenDialog(null);
 		if (returnVal == JFileChooser.APPROVE_OPTION) {
 			file = fileChooser.getSelectedFile();
 			try {
+				document.remove(0, document.getLength());
 				editorKit.read(new FileReader(file), document, 0);
 			} catch (IOException | BadLocationException e) {
 				e.printStackTrace();
