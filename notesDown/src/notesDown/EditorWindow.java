@@ -38,7 +38,7 @@ public class EditorWindow extends JFrame implements ActionListener {
 		}
 		Timer timer = new Timer();
 		UpdateTask updateTask = new UpdateTask(previewPane);
-		timer.scheduleAtFixedRate(updateTask, 1000, 500);
+		timer.scheduleAtFixedRate(updateTask, 1000, 1000);
 	}
 
 	@Override
